@@ -20,6 +20,10 @@
 #include <tcl8.2/tcl.h>
 #endif
 
+#ifdef HAVE_TCL8_3_TCL_H
+#include <tcl8.3/tcl.h>
+#endif
+
 #include <stdio.h>
 #include <sys/param.h>
 #include "color.h"

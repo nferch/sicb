@@ -64,7 +64,7 @@ AC_FUNC_VFORK
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(strchr strtoul getcwd gettimeofday getwd putenv select socket strcspn strerror strspn strstr strtod strtol strtoul strcasecmp strncasecmp)
 AC_CHECK_HEADERS(fcntl.h sgtty.h termio.h strings.h bsd/sgtty.h sys/sys/file.h sys/ioctl.h sys/time.h termio.h unistd.h)
-AC_CHECK_HEADERS(readline.h readline/readline.h openssl/evp.h evp.h tcl.h tcl8.0/tcl.h tcl8.1/tcl.h tcl8.2/tcl.h)
+AC_CHECK_HEADERS(readline.h readline/readline.h openssl/evp.h evp.h tcl.h tcl8.0/tcl.h tcl8.1/tcl.h tcl8.2/tcl.h tcl8.3/tcl.h)
 
 AC_C_CONST
 AC_TYPE_SIZE_T
@@ -74,9 +74,9 @@ AC_CHECK_FUNCS(lrand48)
 AC_CHECK_LIB(termcap,main)
 AC_CHECK_LIB(socket,main)
 AC_CHECK_LIB(nsl,main)
-AC_CHECK_LIB(crypto,main)
-AC_CHECK_LIB(tcl8.0,Tcl_Eval,,AC_CHECK_LIB(tcl8.1,Tcl_Eval,,AC_CHECK_LIB(tcl8.2,Tcl_Eval,,AC_MSG_ERROR(Couldn't find tcl 8.0, 8.1, or 8.2. We need it. Get it.))))
-AC_CHECK_LIB(readline,main)
+AC_CHECK_LIB(crypto,MD5,,AC_MSG_ERROR(oh shit))
+AC_CHECK_LIB(tcl8.0,Tcl_Eval,,AC_CHECK_LIB(tcl8.1,Tcl_Eval,,AC_CHECK_LIB(tcl8.1,Tcl_Eval,,AC_CHECK_LIB(tcl8.3,Tcl_Eval,,AC_MSG_ERROR(Couldn't find tcl 8.0, 8.1, or 8.2, or even 8.3. We need it. Get it.)))))
+AC_CHECK_LIB(readline,readline,,AC_MSG_ERROR(oh shit))
 
 dnl puke
 case "$host_os" in

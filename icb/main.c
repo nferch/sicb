@@ -15,7 +15,7 @@
 
 char *optv[] = { "clear", "list", "who", "restricted", "nickname:", "group:",
 		 "host:", "port:", "password:", "server:", "N:", "color", "ahost:", 
-		 "wogin:", "help/",
+		 "wogin:", "help/", "logfile:",
 		(char *)NULL };
 
 void usage(name, ret)
@@ -32,6 +32,7 @@ fprintf(stderr,"  -server name\t\tconnect to server named name.\n");
 fprintf(stderr,"  -ahost host\t\tconnect to server using source host host\n");
 fprintf(stderr,"  -host host\t\tconnect to server on host host.\n");
 fprintf(stderr,"  -port port\t\ttry to connect to port port.\n");
+fprintf(stderr,"  -logfile filename\t\tspecify logfile to log to\n");
 fprintf(stderr,"  -list\t\t\tlist known servers, in order.\n");
 fprintf(stderr,"  -clear\t\twipe args from command line.\n");
 fprintf(stderr,"  -who\t\t\tsee who's on; don't sign on.\n");
@@ -120,10 +121,18 @@ char **argv;
 			break;
 
 		case 'l':
-			listflg++;
-			gv.interactive = 0;
+			switch (s[1])
+			{
+			case 'i':
+				listflg++;
+				gv.interactive = 0;
+				break;
+			case 'o':
+				gv.logfile=switcharg;
+				break;
+			}
 			break;
-
+				
 		case 'p':
 			switch (s[1])
 			{
