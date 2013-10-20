@@ -1,0 +1,16 @@
+Source: sicb
+Section: net
+Priority: extra
+Maintainer: Nathan A. Ferch <nf@marginal.net>
+Build-Depends: debhelper (>= 8.0.0), autotools-dev, libreadline-dev, libssl-dev, libtcl8.6-dev
+Standards-Version: 3.9.2
+Homepage: https://github.com/nferch/sicb
+vcs-Git: git://git@github.com/nferch/sicb.git
+Vcs-Browser: https://github.com/nferch/sicb
+
+Package: sicb
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Secure ICB client
+ Secure ICB client, derived from Geeklab ICB client, derived from color ICB
+ client.

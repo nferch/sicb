@@ -179,25 +179,25 @@ defprocs.c: perl/makedefs.pl bindings
 #	mv tmp protos.h
 
 install: all
-	install -d $(libdir)
-	install -d $(bindir)
-	install ./icb $(bindir)
-	install -m644 ../icbserverdb $(libdir)
-	install -m644 ./cicbrc.sample $(libdir)/cicbrc
+	install -d $(DESTDIR)/$(libdir)
+	install -d $(DESTDIR)/$(bindir)
+	install ./icb $(DESTDIR)/$(bindir)
+	install -m644 ../icbserverdb $(DESTDIR)/$(libdir)
+	install -m644 ./cicbrc.sample $(DESTDIR)/$(libdir)/cicbrc
 
 $(libdir)/icbserverdb: ../icbserverdb
 	-mkdir $(libdir)
-	cp ../icbserverdb $(libdir)/icbserverdb
+	cp ../icbserverdb $(DESTDIR)/$(libdir)/icbserverdb
 
 $(libdir)/cicbrc: ../cicbrc.sample
 	-mkdir $(libdir)
-	cp ../cicbrc.sample $(libdir)/cicbrc
+	cp ../cicbrc.sample $(DESTDIR)/$(libdir)/cicbrc
 
 $(bindir)/icb: icb
-	-mkdir $(bindir)
-	-rm -f $(bindir)/icb
-	cp icb $(bindir)/icb
-	chmod 755 $(bindir)/icb
+	-mkdir $(DESTDIR)/$(bindir)
+	-rm -f $(DESTDIR)/$(bindir)/icb
+	cp icb $(DESTDIR)/$(bindir)/icb
+	chmod 755 $(DESTDIR)/$(bindir)/icb
 
 lint:
 	lint $(LFLAGS) -DDEFAULTHOST=\"${DEFAULTHOST}\" \
