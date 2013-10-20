@@ -1,0 +1,100 @@
+#	"make"         - compile the sources
+#	"make install" - compile sources, install binaries and man pages
+#	"make clean"   - delete everything that "make" generates
+#	"make depend"  - regenerate dependency lists
+
+# While we shouldn't have to do this, some makes are broken.
+
+BUILD=gicb
+VERSION= @@GICBVERSION@@
+
+SHELL=	/bin/sh
+VPATH=	@srcdir@
+
+subdirs=	@subdirs@
+top_srcdir=	@top_srcdir@
+srcdir=		@srcdir@
+prefix=		@prefix@
+exec_prefix = @exec_prefix@
+
+bindir = $(exec_prefix)/bin
+libdir = $(prefix)/lib
+mandir = $(prefix)/man/man1
+
+CC = @CC@
+CFLAGS = @CFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+INSTALL = @INSTALL@
+
+ICBSERVER= @ICBSERVER@
+ICBPORT= @ICBPORT@
+
+#	Files to be removed from top level with "make clean".
+TOPCLEAN	= core 
+
+TOPDIST 	= config defaults config.h
+
+#	Files to be tarred up with "make dist".
+DISTFILES	= CHANGES HISTORY Makefile README README.COLOR README.GEEKLAB RELEASE-5.0.7 RELEASE-5.0.8 RELEASE-5.0.9 RELEASE-5.0.9c1.0 TESTED_UNDER cicbrc.sample config.h confinc.h contrib dist docs glob icb icbserverdb malloc murgil protocol.h readline sample.icbrc setup support tcl version.h
+
+PREREQS		= config
+
+#	Default
+
+
+all:
+	@for dir in ${subdirs}; do \
+		(cd $$dir && $(MAKE) all) \
+		|| case "$(MFLAGS)" in *k*) fail=yes;; *) exit 1;; esac; \
+		done && test -z "$$fail"
+
+install:
+	@for dir in ${subdirs}; do \
+		(cd $$dir && $(MAKE) install) \
+		|| case "$(MFLAGS)" in *k*) fail=yes;; *) exit 1;; esac; \
+		done && test -z "$$fail"
+clean:
+	/bin/rm -f *~
+	@for dir in ${subdirs}; do \
+		(cd $$dir && $(MAKE) clean) \
+		|| case "$(MFLAGS)" in *k*) fail=yes;; *) exit 1;; esac; \
+		done && test -z "$$fail"
+
+distclean: clean
+	/bin/rm -f Makefile config.h config.status config.cache config.log version.h
+	@for dir in ${subdirs}; do \
+		(cd $$dir && $(MAKE) distclean) \
+		|| case "$(MFLAGS)" in *k*) fail=yes;; *) exit 1;; esac; \
+		done && test -z "$$fail"
+
+dist:	distclean
+	-@mkdir dist
+	-@mkdir dist/gicb-$(VERSION)
+	cp -aR $(DISTFILES) dist/gicb-$(VERSION)
+	cd dist; tar cvf ../../gicb-$(VERSION).tar gicb-$(VERSION)
+	cd ..
+	rm -rf dist
+
+config:
+	sh setup
+
+
+
+# automatic re-running of configure if the ocnfigure.in file has changed
+##${srcdir}/configure: configure.in 
+##	cd ${srcdir} && autoconf
+##
+### autoheader might not change config.h.in, so touch a stamp file
+##${srcdir}/config.h.in: stamp-h.in
+##${srcdir}/stamp-h.in: configure.in
+##	cd ${srcdir} && autoheader
+##	echo timestamp > ${srcdir}/stamp-h.in
+##
+##config.h: stamp-h
+##stamp-h: config.h.in config.status
+##	./config.status
+##Makefile: Makefile.in config.status
+##	./config.status
+##config.status: configure
+##	./config.status --recheck

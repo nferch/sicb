@@ -1,0 +1,175 @@
+# Copyright (c) 1990 by Carrick Sean Casey.
+# For copying and distribution information, see the file COPYING.
+#
+# Default Tcl command bindings.
+#
+
+# Normal user bindings
+
+# this is added even though it is not handled by tcl
+c_usage add ! g "\[command\]" "shell out or run a unix command"
+
+c_usage add m g "\[-permanent\] \[-clear\] nick message" "send a personal message"
+
+# utility used by new /m
+proc _quote {args} {
+	set length [ length $args chars ]
+	set string ""
+	for {set i 0 } { $i < $length } {set i [ expr $i+1 ]} {
+		set ch [ index $args $i chars ]
+		case $ch in \
+		\; {set string ${string}\\\;} \
+		\" {set string ${string}\\\"} \
+		\\ {set string ${string}\\\\} \
+		*   {set string ${string}${ch}}
+	}
+	return $string
+}
+
+proc m {args} {
+	set args [ _quote $args ]
+	set first [ range $args 0 0 chars ]
+	if [ string compare $first \{ ]==0 {
+		set length [ length $args chars ]
+		set args [ range $args 1 [ expr $length-2 ] chars ]
+	}
+	eval s_personal $args
+}
+
+proc n {args} {
+	set args [ _quote $args ]
+	set first [ range $args 0 0 chars ]
+	if [ string compare $first \{ ]==0 {
+		set length [ length $args chars ]
+		set args [range $args 1 [ expr $length-2 ] chars ]
+	}
+	eval s_spersonal $args
+}
+
+# paging is now the default (!)
+oset pagesize -1
+
+c_usage add tcl g "tcl command" "pass command to tcl without quoting"
+c_usage add oset g "\[variable\] \[value\]" "view or set an icb variable"
+c_usage add ounset g "\[variable\]" "unset an icb variable"
+
+# allow fset for those used to it and backward compatibility in rc files
+proc fset {args} {
+	if { [ length $args ] == 0 } then {
+		oset
+	} else { if { [ length $args ] == 1 } then {
+		oset $args
+	} else {
+		set var [ range $args 0 0 ]
+		set value [ range $args 1 1 ]
+		oset $var $value
+	}
+	}
+}
+proc funset {var} {ounset $var}
+
+c_usage add beep g "nick" "send someone a beep"
+proc beep nick {s_beep $nick}
+
+c_usage add boot m "nick" "kick someone out of your group"
+proc boot nick {s_group remove $nick}
+
+c_usage add bug g "" "send mail to the author"
+proc bug {} {c_shell "mail mark@cad.gatech.edu"}
+
+c_usage add cancel m "nick" "cancel an invitation"
+proc cancel nick {s_group cancel $nick}
+
+c_usage add commands i "" "list commands"
+proc commands {} {c_usage list}
+
+c_usage add bump nickname "\[password\]" "bump someone who is using your registered nickname"
+proc bump {args} {s_bump $args}
+
+c_usage add cp "\[old\]" "\[new\]" "change your registration password"
+proc cp {args} {s_chpw $args}
+
+proc dh {args} {s_dh $args}
+
+c_usage add echoback g "on|off" "turn on/off echoback"
+proc echoback onoff {s_user echoback $onoff}
+
+c_usage add group g "group" "change groups"
+proc group group {s_group change $group}
+proc g group {s_group change $group}
+
+c_usage add hclear g "" "clear the \"tab\" history buffer"
+proc hclear {} {c_hclear}
+
+c_usage add hdel g "" "remove a nickname from the \"tab\" history buffer"
+proc hdel {nick} {c_hdel $nick}
+
+c_usage add help i "\[subject\]" "get help \[on subject\]"
+proc help {args} {c_help $args}
+
+c_usage add hush g "\[nick\]" "toggle hushing of a user"
+proc hush {args} {c_hush $args}
+
+c_usage add invite m "nick" "invite people to your group"
+proc invite nick {s_group invite $nick}
+
+c_usage add log g "\[filename\]" "toggle session logging"
+proc log {args}	{eval c_log $args}
+
+#c_usage add message g "nick message" "send a personal message"
+proc message {args} {eval s_personal $args}
+
+c_usage add motd i "" "print the ICB message of the day"
+proc motd {} {s_motd}
+
+c_usage add new m "group" "create your own group"
+proc new group {s_group create $group}
+
+c_usage add nick g "newnick" "change your nickname"
+proc nick newnick {s_user nick $newnick}
+
+c_usage add pass m "\[nick\]" "pass moderation of your group"
+proc pass {args} {s_group pass $args}
+
+c_usage add display g "\[-personal\] \[-nickname nick\] \[-(no)log\] \[-(no)screen\] \[lines\]" "display past conversation"
+proc display {args} {eval c_replay $args}
+proc replay {args} {eval c_replay $args}
+
+c_usage add quit g "" "exit icb"
+proc quit {} {c_quit}
+
+c_usage add register g "\[password\]" "register your nickname"
+proc register args {s_register $args}
+
+c_usage add send g "message" "send text to your group"
+proc send args {s_send $args}
+
+c_usage add status m "" "change or see the status of a group"
+proc status {args} {s_group status $args}
+
+c_usage add time i "" "show the current time"
+proc time {} {c_time}
+
+c_usage add topic m "topicname" "set your group's topic"
+proc topic args {s_group topic $args}
+
+c_usage add version i "\[-s|-c\]" "display server and/or client version info"
+proc version {args} {
+	if { [ string compare $args "-c" ] !=0 } {
+		s_version
+	}
+	if { [ string compare $args "-s" ] != 0 } {
+		c_version
+	}
+}
+
+c_usage add who i "\[.\] \[group\]" "list users"
+proc who {args} {s_who long $args}
+
+# Admin only commands
+# Note: these are enforced in the server
+
+proc a_su pass {s_user nick admin $pass}
+proc a_drop args {s_admin drop $args}
+proc a_shutdown {when args} {s_admin shutdown $when $args}
+proc a_wall args {s_admin wall $args}

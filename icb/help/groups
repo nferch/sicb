@@ -1,0 +1,84 @@
+groups                  Group concepts and commands.
+
+All ICB users are divided into "groups". A group may be thought of
+as a room, where what you say out loud goes to everyone else in that
+group.  In keeping with the CB analogy, you may think of a group as a
+channel.
+
+Users can jump from group to group, and create their own new groups.
+When the last person leaves a group, it disappears.
+
+Group Attributes
+
+Groups have three administrative attributes: moderatorship,
+visibility, and volume.  The values of these attributes appear as
+three letters in parentheses next to the group name.
+
+1. Moderatorship
+
+	A group may be public (p), moderated (m), or restricted (r).  A public
+	group has no moderator; no one person has any more control over
+	the group than any other.  A moderated group has a single 
+	moderator, whose nickname appears in the group header and
+	is starred in the group listing.  Only the moderator may change
+	the group attributes, set the group topic, boot people out of the
+	group, and issue invitations into the group.  A restricted group
+	is a moderated group which no-one may enter without an invitation.
+
+2. Visibility
+
+	A group may be visible (v), secret (s), or invisible (i).  A visible
+	group is one whose name and occupants are visible to everyone on
+	ICB.  A secret group is one whose occupants are visible, but whose
+	name is not; the group name shows up as '*Secret'.  This prevents
+	anyone who does not know the group name from entering the group.
+	An invisible group does not show up in the /w listing at all unless
+	you are in that group.  However, it is counted in the summary
+	statistics at the bottom of the /w listing.
+	
+3. Volume
+
+	A group may be quiet (q), normal (n), or loud (l).  In a quiet group,
+ 	no open messages are permitted.  If you wish to receive only personal
+	messages, a quiet group is a good place to hang out.  In a normal
+	group, open messages are permitted.  Loud is the same as normal,
+	with one exception: if the group is restricted and someone without an
+	invitation tries to enter the group, the moderator will receive a
+	message indicating that fact.
+
+Creating your own group automatically makes you the moderator of that group.
+Additionally, the moderator of any group may at any time decide to turn over
+moderatorship of that group to you.  
+
+Numeric groups are initially public, visible, and loud (pvl).  Named groups
+are initially moderated, visible, and loud (mvl), with two exceptions.  If
+the group name begins with a single period, the group is initially secret.
+If the group names begins with two or more periods, the group is initially
+invisible.
+
+Commands
+
+The following are the commands for manipulating groups.  Commands marked with
+(m) may only be issued by the moderator if the group is moderated; otherwise
+anyone may issue them.  Commands marked with (M) may only be issued by the
+moderator; if there is no moderator, no-one may issue them.
+
+	group <groupname> 	change to a new group, creating it if it
+				does not exist.
+
+(m)	topic [<string>] 	set or display the current topic string
+
+	status			display group attributes, topic, and invitation
+				list
+(m)	status [pmrqnlvsi]	set group attributes
+(M)	status name <newname>	change the group's name
+
+	topic 			display the topic string
+(m)	topic <string>		set the topic string
+
+(m)	invite [<nickname>]	invite someone to the group
+
+(M)	boot <nickname>		kick someone out of the group
+
+(M)	pass [<nickname>]	turn moderation over to someone else, or
+				give up moderation completely

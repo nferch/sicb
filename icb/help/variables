@@ -1,0 +1,130 @@
+variables            Setting icb customization variables.
+
+ICB has several variables you can set to customize the way icb works. This
+is done using the "oset" command. There are three ways to use the oset
+command:
+
+oset            Display the value of all variables.
+oset var        Display the value of a particular variable.
+oset var value  Set the value of a variable.
+ounset var	Unset a variable.
+
+The variables and their effect are listed below. Boolean (bool) fields
+are either "true" or "false". Setting them to "true", "on", "yes" "y",
+or "1", sets them to true. Setting them to "false", "off", "no" "n",
+or "0", sets them to false. "Nneg" fields are nonnegative integers.
+A "char" field will use the first character only of an argument.
+
+ICB VARIABLES
+
+autodel		(boolean)		default: false
+
+    If true, whenever you receive an error from the server indicating that
+    a nickname is not signed on, that nickname will be deleted from your
+    "tab" history.
+
+autoreg		(boolean)		default: false
+
+   If true, whenever the server sends a message indicating that you must
+   send your password to register your nickname, the client will prompt you
+   for your password and send it to the server.
+
+beeps           (boolean)               default: true
+
+    If true, a received beep will make your terminal beep (with a ^G).
+    If false, you will still get the beep message, but no actual beep.
+
+bufferlines     (nneg)                  default: 250
+
+    ICB keeps a buffer of the messages that have gone by. You can review
+    this buffer with the replay command.
+
+commandchar     (char)                  default: '/'
+
+    Commandchar is the character used at the beginning of a line to
+    prefix an icb command. Note that the backslash character always
+    works and can't be changed, so if you set it and forget it, use
+    backslash. (Joe Isuzu alert: this is a lie, backslash doesn't work).
+
+cute		(boolean)		default: true
+
+    If true, then ICB will generate a random cute message every time you
+    hit RETURN on a blank line.
+
+editmode	(string)		default: ${EDITOR:-vi}
+
+    This variable may be set to either "vi", for vi-style input editing,
+    or "emacs", for emacs-style input editing.  The default is determined
+    from the environment variable EDITOR.  If EDITOR is not set, the
+    default is vi.
+
+groupblanks     (boolean)               default: false
+
+    In a who command, this causes a blank line to be printed before
+    each group.
+
+history         (nneg)                  default: 15
+
+    This controls the number of nicknames recallable with the history
+    key, usually TAB.
+
+logfile         (string)                default: icb.log
+
+    The default filename used for session logs.
+
+logreplay	(boolean)		default: false
+
+   If true, then the output of the /replay or /display command will go
+   into the logfile, if logging is active.  The value of this variable may
+   be overridden for a single replay command by specifying -log or -nolog.
+
+pagesize        (integer)               default: -1   (see below)
+
+    If this is nonzero, paging is in effect, and a more prompt will be
+    displayed every pagesize lines. Hitting a space continues, hitting any
+    other character begins a line of input. If you set pagesize to -1, icb
+    will set it to your terminal's "rows" parameter minus one. If the rows
+    parameter isn't set, icb will assume you have 24 lines and set it to 23.
+
+personalto	(string)		default: "" 
+
+    If this is a nonempty string, then any text typed that is not a 
+    command will be sent as a personal message to the nickname contained
+    in this variable.  /ounset will set this variable to the empty string,
+    so that non-command text will go out as a public message to your
+    group.
+ 
+    If you specify the -permanent flag on the /message command, this
+    variable will be set to the target of that /m.  The -clear flag of
+    /message will unset this variable.
+
+pauseonshell    (boolean)               default: false
+
+    When pauseonshell is true, icb will ask you to hit return when a
+    shell command is finished. Since a large amount of icb output may be
+    waiting for your screen, this gives you a chance to see the output
+    of your command.
+
+restricted      (boolean)               default: false
+
+    Restricted shuts off the ability to run subshell commands or to
+    read or write files. It makes it icb reasonably secure for use as
+    a shell.
+
+tabreply	(boolean)		default: false
+
+    If true, then the source nickname of incoming personal messages will
+    be placed into the tab history.
+
+timedisplay     (string)                default: "normal"
+
+    Timedisplay controls how time is printed out by the c_time primitive,
+    and thus the /time command. Valid strings are:
+
+        "cute"      Prints the time as you might say it.
+        "normal"    Normal time display.
+        "military"  Military time display.
+
+verifyquit      (boolean)               default: false
+
+    If this is true, you are asked to verify anytime you quit icb.

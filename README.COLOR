@@ -1,0 +1,14 @@
+Color code written originally by Synk (sink@zynet.com) and Techs 
+(emf@freedom.nmsu.edu).  Bug fixes, mono/color mode switching, and new 
+.cicbrc file format and parser by Alaric (alaric@netcom.com).
+
+This is a quick bit of ugly code which adds color to icb.  It could be
+cleaned up a great deal, but it works.  I've also commented out the ^U
+function in readline.c and replaced it with the backspace function so the
+linux backspace works propperly.  There is a cicbrc.sample which should be
+moved to ~/.cicbrc to get color.
+
+	Misc mail regarding this can be sent to:
+		synk@zynet.com
+		emf@freedom.nmsu.edu
+		alaric@netcom.com

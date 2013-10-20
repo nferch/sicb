@@ -1,0 +1,19 @@
+tcl             General information on Tcl.
+
+Tcl, pronounced "tickle", stands for "Tool Command Language". It is
+basically a shell that you extend with your own commands to make an
+application. Tcl has been incorporated into icb, or icb has been
+incorporated into Tcl, depending on how you look at it.
+
+The net result is that now users have a very flexible command parser.
+They can rename or delete commands, define their own commands and
+abbreviations, and write Tcl programs to do things.
+
+Tcl is too complicated to cover here. The user is referred to the Tcl
+reference document, included in the icb distribution in the "docs"
+directory. The rest of the Tcl documentation, which deals with how
+to interface Tcl with C programs, is in the official Tcl release,
+available via anonymous ftp from ucbvax.berkeley.edu.
+
+See the help topic for info on the fnrc file, which has some sample
+uses of Tcl.

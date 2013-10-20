@@ -1,0 +1,110 @@
+primitives              Primitives for building icb commands.
+
+ICB provides a set of primitives for building your own commands. Most
+of the "normal" commands are actually Tcl procedures that invoke these
+primitives, which are C functions.
+
+The primitives are divided into two categories. The first one is client
+functions performed internally. Most of these start with "c_", except for
+"fset" and "tcl". The second category is functions that request some
+action of the server, these start with "s_".
+
+fset    [variable [value]]
+
+    This sets and displays icb customization variables. Without a variable
+    name, it displays all the variables on the users screen. With just
+    a variable name, it prints out only that variable name. With a variable
+    name and a value, the variable is set to that value. See the help
+    section on variables.
+
+tcl     [tcl command]
+
+    When inputting text from the terminal, this flags the beginning of a
+    tcl command that is not to be specially quoted. To avoid nasty surprises,
+    text handed to tcl is normally quoted to remove the meaning of tcl
+    special characters. This allows input without that quoting, thus
+    giving tcl full power to do it's thing.
+
+c_hclear
+
+    Clears out the "tab" history buffer.
+
+c_help  [subject]
+
+    Display the help menu. If subject is given, display the help file for that
+    subject.
+
+c_quit
+
+    Quit icb.
+
+c_rand range
+
+    Returns a random number from 1 to range.
+
+c_replay [lines]
+
+    Print lines from the review buffer. If lines is not given, the entire
+    buffer is printed.
+
+c_shell [command]
+
+    Start up a shell or run a command under a subshell. If the SHELL environment
+    variable is set, that shell is used.
+
+c_time  
+
+    Print the current time. Depending on the "timedisplay" variable, the
+    time may be displayed on one of three formats: cute, normal, and military.
+
+c_usage add|delete|list [name] [type args usage]";
+
+    Manipulate usage lines. Sub functions are:
+
+        add name type args usage...
+            Add a usage line. Name is the command name. Type is "g" for
+            general commands, "l" for listing commands, "m" for moderator
+            commands, "a" is for admin commands, and "c" is for user
+            defined custom commands.
+
+        delete name
+            Delete a usage line (not currently implemented).
+
+        list
+            List all the usage lines. The "commands" command calls this.
+
+s_beep  nick
+
+    Send a beep to another user.
+
+s_group change|create|invite|pass|remove|status|topic args
+
+    Request a group function from the server. The sub functions are:
+
+        change group            Change groups.
+        create newgroup         Create a new group.
+        invite nick             Invite a user.
+        pass   [nick]           Relinquish or pass moderatorship.
+        remove nick             Remove a user from a group.
+        status flags            Set or see the status for a group.
+        topic  text...          Set the topic for this group.
+
+s_person nick text...
+
+    Send a personal message to a user.
+
+s_send  text...
+
+    Send a line of text to the group.
+
+s_user
+
+    Invoke a user function. The sub functions are:
+
+        nick    newnick q       Change your nickname.
+
+s_who   short|long [group]
+
+    Print a list of users in either short or long format. If group is
+    given, only the users in that group are listed. Short and long are
+    not yet implemented. Use "long".

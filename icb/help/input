@@ -1,0 +1,52 @@
+input           Input and editing characters
+
+EDITING CHARACTERS
+
+ICB uses the GNU readline library for input lines.  This library lets you
+edit commands as you type them and retrieve previous commands that you have
+typed.  Readline will emulate either of the vi or emacs editors; you may control
+which by using the 'oset' command to set the 'editmode' variable to either
+"vi" or "emacs".  The original default is picked up by the setting of your
+EDITOR environment variable; if that variable is not set, vi is used.
+
+
+NICKNAME HISTORY
+
+ICB remembers to whom you send messages, and makes those names
+available by hitting the TAB key at the beginning of a line. This makes
+sending personals very easy. Try it! If you strike the TAB key more
+than once at the beginning of a line, it cycles through the list of
+personals, up to the number specified by the "history" variable.
+
+If you have already typed a command and part of a nickname when you hit
+TAB, it will attempt to complete the nickname from the list in your 
+history.  If you have already typed a command, a nickname, and more text on the
+line, then pressing TAB will cause the nickname to cycle through your history
+without affecting the rest of your command line.
+
+You may selectively delete nicknames from your history with the "hdel"
+command, or you may use the "hclear" to completely clear out this history list
+and start over.
+
+If you set the value of the "autodel" variable to "true", then any nickname
+that generates a "not signed on" error message will be automatically removed
+from your history .
+
+
+THE COMMAND CHARACTER
+
+All lines starting with the command character are assumed to be commands.
+If you wish to send a line of text starting with the command character,
+type it double at the beginning of the line.   The default command character
+is '/'; you may change it by changing the value of the 'commandchar' variable.
+
+
+TCL QUOTING
+
+Tcl has several characters with special meaning. For example, dollar
+sign "$" is assumed to start a variable. So that users don't get
+confused when things don't work as expected, all command input is
+specially quoted to make Tcl ignore these special characters. If you
+wish the line to be unquoted, use the "tcl" command, giving the line
+you want unquoted as the argument. Tcl will operate on the rest of the
+line at full functionality.

@@ -1,0 +1,40 @@
+options                 Runtime options and environment variables
+
+Runtime options for icb (these may be abbreviated):
+
+  -nickname nick	sign on with nickname nick.
+
+  -password pass	set password to pass (implies -clear).
+
+  -password -		prompt for password.
+
+  -group group		sign on into group group.
+
+  -server name		connect to server named name.
+
+  -host host		connect to server on host host.
+
+  -port port		try to connect to port port.
+
+  -list			list known servers, in order.
+
+  -clear		wipe args from command line.
+
+  -who			see who's on; don't sign on.
+
+  -restricted		restricted mode
+
+  -help			display help message.
+
+
+ICB environment variables:
+
+    ICBRC       Name of file to read instead of "$HOME/.icbnrc". If this
+                path is not an absolute path name, it is considered to be
+                relative to HOME. If ICBRC is specified and the corresponding
+                file is not found, and error message will be printed.
+
+    ICBNAME     Default nickname to use, instead of your login id.
+
+    SHELL       Shell to use for shellouts. If unspecified then /bin/sh
+                is assumed.

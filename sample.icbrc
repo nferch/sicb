@@ -1,0 +1,139 @@
+#
+#	This is a sample .icbrc file. Your real one should be in your home
+#	directory, named ".icbrc". If you'd like to use a different name,
+#	you may set the ICBRC variable.
+#
+#	See "help tcl", "help primitives", and "help variables" for further
+#	information.
+#
+
+#==============================================================================#
+# options
+#==============================================================================#
+oset tabreply false	# set to "true" to put the source nicks of incoming /m's 
+					# into tab history
+oset autodel false  # set to "true" to have nicks that generate an "error - 
+					# so-and-so not signed on" removed from tab history 
+#echoback on		# uncomment to see your own public messages
+
+#==============================================================================#
+# procedures
+#==============================================================================#
+
+#==============================================================================#
+# Provide unambiguous abbreviations
+#==============================================================================#
+proc b {args} {eval beep $args}
+proc c {} {commands}
+proc d {args} {eval display $args}
+proc h {args} {c_help $args}
+proc i {args} {foreach nick $args {s_group invite $nick}}
+proc n {nick} {s_user nick $nick}
+proc s {args} {s_group status $args}
+proc t {} {c_time}
+proc to {args} {s_group topic $args}
+proc w {args} {s_who long $args }
+
+#==============================================================================#
+# Document the VMS server add-onsd-ons      
+#==============================================================================#
+c_usage add mess c "" "display message from server"
+c_usage add ping c "" "display round-trip time between you and the server"
+c_usage add shuttime c "" "display time until server shutdown"
+
+# since /hush is interpreted locally, add a proc to force server-level.
+proc s_hush {args} {s_personal server hush $args}
+c_usage add s_hush c "\[-n nick\]|\[-s pattern\]" "hush someone at the server level"
+
+c_usage add unhush c "string" "undo a s_hush"
+c_usage add bcount c "" "display count of bytes sent and recieved"
+c_usage add write c "nick message" "leave a message for someone"
+c_usage add read c "" "read messages left for you"
+c_usage add p c "password" "set your server password and register"
+c_usage add cp c "oldpass newpass" "change your server password"
+c_usage add secure c "" "set secure mode (must send password to register)"
+c_usage add nosecure c "" "unset secure mode (autoregistration from registered address"
+c_usage add whois c "nickname" "lookup nickname in server database"
+c_usage add delete c "password nickname" "delete entry from server database"
+c_usage add phone c "number" "enter your phone number into database"
+c_usage add text c "string" "enter interesting text into database"
+c_usage add rname c "real name" "enter your real name into database"
+c_usage add addr c "line1|line2|line3" "enter your street address"
+
+#==============================================================================#
+# dole out punishment for annoying actions or bad puns :-)
+#==============================================================================#
+proc boottothehead {nick}  \
+{
+	s_personal $nick "\[*WHACK!*\] Boot to the head!";
+	s_send "\[=Status=\] $nick has received a boot to the head."
+}
+c_usage add boottothehead c "nick" "send someone a boot to the head."
+
+#==============================================================================#
+# send someone (or several someones) a net.hug
+#==============================================================================#
+proc hug {args} \
+{
+	foreach nick $args \
+	{
+		s_personal $nick "\[*HUG*\] You have just been hugged!"
+	}
+}
+c_usage add hug c "nick..." "send someone or several someones a net.hug"
+
+#==============================================================================#
+# beep several someones - overrides normal /beep
+#==============================================================================#
+proc beep {args} \
+{
+	foreach nick $args {s_beep $nick}
+}
+c_usage delete beep
+c_usage add beep c "nick..." "send someone or several someones a beep"
+
+
+#==============================================================================#
+# send a /m to several people - separate nicks with commas, stick a \ in front
+# of a , in a nickname  (you can change this to 'proc m' to replace /m)
+#==============================================================================#
+proc mm {nicks args} \
+{
+	set nicks [split $nicks]
+	foreach nick $nicks {s_personal $nick $args}
+}
+c_usage add mm c "nick,..,nick message" "send a message to multiple people."
+
+
+#==============================================================================#
+# The nifty utility to do the ,-splitting for /mm
+#==============================================================================#
+proc split {list args} {
+		if "[length $args chars] > 0" then {
+			set delim $args
+		} else  {
+			set delim ,
+		}
+
+		set outlist {}
+		set concat {}
+		set i [string first $delim $list]
+	for {set i [ string first $delim $list ]} { $i != -1 } {set list [range
+$list [expr $i+1] [expr [length $list chars]-1] chars];set i [ string first $delim $list ]} {
+	set elem [range $list 0 [expr $i-1] chars]
+	if "[length $concat chars] > 0" then {
+		set elem $concat$elem
+		set concat {}
+	}
+	set last [expr [length $elem chars]-1]
+	
+	if [string compare [index $elem $last chars] \\]==0 then {
+		set concat "$concat[range $elem 0 [expr $last-1] chars]$delim"
+	} else {
+		set outlist "$outlist $elem"
+	}
+	
+	}
+	set outlist "$outlist $list"
+	return $outlist
+}

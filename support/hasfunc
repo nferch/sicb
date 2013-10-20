@@ -1,0 +1,44 @@
+#!/bin/sh
+
+#	Copyright (c) 1990 by Carrick Sean Casey.
+#	For copying and distribution information, see the file COPYING.
+
+#	See if a system has certain library routines. (yuck)
+
+echo "Checking to see if you have $1()..."
+
+case $1 in
+strerror)
+	call="strerror(0);"
+	;;
+strcasecmp)
+	call="strcasecmp(NULL,NULL);"
+	;;
+strtol)
+	call="strtol(0);"
+	;;
+*)
+	echo ""
+	echo "hasfunc: error: unknown func $1. Assuming you don't have it."
+	exit 1
+	;;
+esac
+
+cat >> tmp.c <<EOF
+#include <stdlib.h>
+main()
+{
+	$call
+}
+EOF
+
+#if ${_CC} ${_CFLAGS} -I.. -o /dev/null tmp.c > /dev/null 2>&1; then
+if ${_CC} ${_CFLAGS}  -o temp.crap tmp.c ; then
+	echo "You do."
+	rm -f tmp.c tmp.o temp.crap
+	exit 0
+else
+	echo "You don't."
+	rm -f tmp.c tmp.o temp.crap
+	exit 1
+fi

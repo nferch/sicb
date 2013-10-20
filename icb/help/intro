@@ -1,0 +1,66 @@
+intro           Introduction to ICB..
+
+Welcome to ICB!
+
+ICB is an ongoing project to connect people together. It provides
+a forum where people can meet and share information, ideas, or opinions;
+conduct meetings; play games; or do just about anything made
+possible with fast electronic communications.
+
+Getting started using ICB is easy. You run "icb" and after a few
+seconds, you will be signed on in one of the default groups. A group is
+a place where people can talk with one another. Chances are, there will
+be other people there, and you'll see them talking. It might look
+something like this:
+
+<Joe> hello x
+<Amelia> hi x
+
+Usually when you first "sign on", people will say hello to you. Here,
+Joe and Amelia said hi, assuming your nickname was "x".
+
+Everyone in ICB has a "nickname". These are used because many
+login names are difficult to type, and don't tell you much about the
+user. Some users have nicknames like "Dr. X". Others use their real
+life names.
+
+Try a "who" command, to see who is signed on. You can do this
+with the command:
+
+/who            (show everyone)
+/who .          (show just your group)
+
+Note that the command started with a slash. All icb commands start with a
+slash (although you can change that).
+
+To send a line of text to the group, just type what you want to say, and
+hit RETURN. It will be sent to everyone in your group.
+
+Sooner or later, you're going to see a message that looks like this:
+
+<*Joe*> some text
+
+This means that Joe sent you a "personal message". It is meant only for
+you. He sent it with a command that looks like this:
+
+/m x some text
+
+Still assuming your name was "x". You could reply with:
+
+/m joe Joe, you are being silly.
+
+Which would only go to Joe.
+
+I hope this is enough to get you started talking. In other help files,
+you can learn more about groups, how to change groups, how to make your
+own, etc. I suggest you read--or at least skim--all of the help files.
+That way, you'll be able to get the most out of icb.
+
+As a final note, please read the rules. Not only do they say what is
+tolerated and what is not (ICB is pretty liberal), but they also tell
+you what to do if you run into trouble.
+
+Have fun, and feel free to send me suggestions and bug reports.
+
+Mark J. Reed
+<mark@cad.gatech.edu>

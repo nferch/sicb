@@ -1,0 +1,25 @@
+hush            Using hush to silence annoying users.
+
+ICB has a large base of diverse users. It is inevitable that there
+are going to be people who do not get along. Rather than censoring users,
+I prefer to give people tools that allow them to reduce or negate the
+problem.
+
+To deal with annoying users, the first line of defense is the facility
+called "hushing". Use of the hush command enables you to block all
+communications from a particular person to you. You won't receive any
+group messgages, personal messages, beeps, or invitations from them.
+
+Hush acts a toggle, so if you decide that person doesn't bug you anymore,
+you can reenable them by hushing them again. If you give the hush command
+without a nickname, a list of currently hushed people will be printed.
+
+Hush operates on a nickname; a hushee may get around your hushlist by
+changing his or her nickname.  You may prevent this by using the s_hush
+(server hush) command; this command lets you define a set of users
+to ignore based on their sites.  
+
+Hush is the preferred way of dealing with problem users. Other means
+include using the moderated group facility, and when all else fails,
+complaining to the administration. If a user is persistent enough that
+hush won't take care of them, see the rules section for what to do.

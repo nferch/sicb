@@ -1,0 +1,31 @@
+# Send a file to ICB. 
+# Contributed by Paul Callahan.
+#
+# DANGER! DANGER WILL ROBINSON!
+#
+# Use this one with discretion, lest you break the rules, and make me
+# do something mean like installing an input rate limiter. I mean it!
+# Don't abuse it. -Sean
+
+proc echofile fname {
+	echolines [exec expand < [exec cat $fname]]
+}
+
+c_usage add echofile c "echofile filename" "send a file to ICB"
+
+proc echolines bigstring {
+  set pat [format "\n"]
+  set more 1
+  for {set rest [format "%s\n" $bigstring]
+    } {$more
+    } {} {
+    set newline [string first $pat $rest] 
+    if {$newline==0} then {set line [format " "]} else {
+    set line [range $rest 0 [expr {$newline-1}] chars]}
+    if {[length $rest char]> [expr {$newline+1}]} then { 
+       set rest [range $rest [expr {$newline+1}] end chars]
+       s_send [format "%s" $line]
+    } else {
+       set more 0}
+    }
+}

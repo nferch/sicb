@@ -1,0 +1,4 @@
+/* version information */
+
+#define GICBVERSION	"@(#) geeklab icb client\nversion @GICBVERS@"
+#define	PROTO_LEVEL	1

@@ -1,0 +1,48 @@
+news            News regarding release 0.10.
+
+TCL has been incorporated into client, making the command set
+extendable and programmable. 
+
+Hush has been implemented. It only currently works by nickname, but
+there are plans to extend it in various ways.
+
+A review buffer is now implemented and may be accessed with the "display"
+command and the "bufferlines" variable.
+
+Paging is now implemented, usable with the "paging" variable.
+
+The online help system has been totally redone. It has help encoded
+into the client sorted by subject. This makes icb independent of outside
+files and easier to correctly install.
+
+Murgil now accepts and properly uses numeric addresses. This speeds things
+up by bypassing the nameserver. It also makes icb more portable.
+
+The shell command "/!" works better, faithfully looks at the "SHELL"
+environment variable, and no longer requires a space between the
+exclamation mark and the command.
+
+A new status command shows you the information for the current group, and
+what groups you have been invited to.
+
+Session logging and "alert" have been temporarily removed. That
+facility will undergo an upgrade next release. It is hoped that output
+can be hooked into a Tcl display routine, making message displays user
+customizable.
+
+The groupname output has been changed yet again in the never ending
+search for aesthetically pleasing output.
+
+The who command has been extended to allow a groupname to be specified
+as an argument, giving the list of users for just that group.
+
+ICB variables are now set with the "fset" command, which also can be used
+to display the value of those variables.
+
+The routine to determine your login name should now work under programs
+like "script" and "screen".
+
+ICB reads the editing characters from the tty struct. This means that users
+with modified characters will be able to use those.
+
+Internally, some of the code has been cleaned up and de-linted.
