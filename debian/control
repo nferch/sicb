@@ -2,7 +2,7 @@ Source: sicb
 Section: net
 Priority: extra
 Maintainer: Nathan A. Ferch <nf@marginal.net>
-Build-Depends: debhelper (>= 8.0.0), autotools-dev, libreadline-dev, libssl-dev, libtcl8.6-dev
+Build-Depends: debhelper (>= 8.0.0), autotools-dev, libreadline-dev, libssl-dev, tcl8.5-dev
 Standards-Version: 3.9.2
 Homepage: https://github.com/nferch/sicb
 vcs-Git: git://git@github.com/nferch/sicb.git
