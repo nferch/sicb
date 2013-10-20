@@ -1,7 +1,0 @@
-To format this document use:
-
-nroff tcl.man > file
-or
-troff tcl.man
-
-DON'T use -ms or -man. This document comes with it's own macro package.

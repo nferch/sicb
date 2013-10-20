@@ -1,7 +1,5 @@
 /* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
-#include <version.h>
-
 /* Define if using alloca.c.  */
 #undef C_ALLOCA
 
@@ -78,6 +76,9 @@
 /* Define if you have the getwd function.  */
 #undef HAVE_GETWD
 
+/* Define if you have the lrand48 function.  */
+#undef HAVE_LRAND48
+
 /* Define if you have the putenv function.  */
 #undef HAVE_PUTENV
 
@@ -89,6 +90,9 @@
 
 /* Define if you have the strcasecmp function.  */
 #undef HAVE_STRCASECMP
+
+/* Define if you have the strchr function.  */
+#undef HAVE_STRCHR
 
 /* Define if you have the strcspn function.  */
 #undef HAVE_STRCSPN
@@ -120,11 +124,23 @@
 /* Define if you have the <dirent.h> header file.  */
 #undef HAVE_DIRENT_H
 
+/* Define if you have the <evp.h> header file.  */
+#undef HAVE_EVP_H
+
 /* Define if you have the <fcntl.h> header file.  */
 #undef HAVE_FCNTL_H
 
 /* Define if you have the <ndir.h> header file.  */
 #undef HAVE_NDIR_H
+
+/* Define if you have the <openssl/evp.h> header file.  */
+#undef HAVE_OPENSSL_EVP_H
+
+/* Define if you have the <readline.h> header file.  */
+#undef HAVE_READLINE_H
+
+/* Define if you have the <readline/readline.h> header file.  */
+#undef HAVE_READLINE_READLINE_H
 
 /* Define if you have the <sgtty.h> header file.  */
 #undef HAVE_SGTTY_H
@@ -147,22 +163,38 @@
 /* Define if you have the <sys/time.h> header file.  */
 #undef HAVE_SYS_TIME_H
 
+/* Define if you have the <tcl.h> header file.  */
+#undef HAVE_TCL_H
+
+/* Define if you have the <tcl8.0/tcl.h> header file.  */
+#undef HAVE_TCL8_0_TCL_H
+
+/* Define if you have the <tcl8.1/tcl.h> header file.  */
+#undef HAVE_TCL8_1_TCL_H
+
+/* Define if you have the <tcl8.2/tcl.h> header file.  */
+#undef HAVE_TCL8_2_TCL_H
+
 /* Define if you have the <termio.h> header file.  */
 #undef HAVE_TERMIO_H
 
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
 
+/* Define if you have the crypto library (-lcrypto).  */
+#undef HAVE_LIBCRYPTO
+
+/* Define if you have the nsl library (-lnsl).  */
+#undef HAVE_LIBNSL
+
+/* Define if you have the readline library (-lreadline).  */
+#undef HAVE_LIBREADLINE
+
+/* Define if you have the socket library (-lsocket).  */
+#undef HAVE_LIBSOCKET
+
+/* Define if you have the tcl8.0 library (-ltcl8.0).  */
+#undef HAVE_LIBTCL8_0
+
 /* Define if you have the termcap library (-ltermcap).  */
 #undef HAVE_LIBTERMCAP
-
-/* Define if you have the ucb library (-lucb).  */
-#undef HAVE_LIBUCB
-
-/* Define if you have the lrand48() function  */
-#undef HAVE_LRAND48
-
-/* Define if you have the strchr() function  */
-#undef HAVE_STRCHR
-
-

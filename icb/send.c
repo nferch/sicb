@@ -158,8 +158,9 @@ char ch;
 
 if (chunks)
 {
-	for (i=0; chunks[i]; ++i)
+	for (i=0; chunks[i]; ++i) {
 		free(chunks[i]);
+	}
 	free(chunks);
 }
 
@@ -187,7 +188,7 @@ for ( i = 0 ; strlen(s) > size ; ++i)
 		s[length-1] = '-';
 	}
 			
-	chunks[i] = (char *)malloc(length);
+	chunks[i] = (char *)malloc(length + 1);
 	if (!chunks[i])
 	{
 		sprintf(cgenbuff,"%s[=%sError%s=]%s Out of memory%s", cequalbracket,cerror,cequalbracket,cgenmessage,csane);

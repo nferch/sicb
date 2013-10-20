@@ -36,7 +36,7 @@ TOPCLEAN	= core
 TOPDIST 	= config defaults config.h
 
 #	Files to be tarred up with "make dist".
-DISTFILES	= CHANGES HISTORY Makefile README README.COLOR README.GEEKLAB RELEASE-5.0.7 RELEASE-5.0.8 RELEASE-5.0.9 RELEASE-5.0.9c1.0 TESTED_UNDER cicbrc.sample config.h confinc.h contrib dist docs glob icb icbserverdb malloc murgil protocol.h readline sample.icbrc setup support tcl version.h
+DISTFILES	= CHANGES HISTORY Makefile README README.COLOR README.GEEKLAB RELEASE-5.0.7 RELEASE-5.0.8 RELEASE-5.0.9 RELEASE-5.0.9c1.0 TESTED_UNDER cicbrc.sample config.h confinc.h contrib dist docs glob icb icbserverdb malloc murgil protocol.h sample.icbrc setup support version.h
 
 PREREQS		= config
 

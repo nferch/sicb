@@ -19,7 +19,7 @@ typedef struct	{
 char	cicbrc[16]=".cicbrc";
 char	cicbrcpath[1024];
 char		cgenbuff[1024];
-unsigned char	*cicbrcbuff,*workc;
+unsigned char	*cicbrcbuff, *workbuf;
 char *line;
 
 char * colornames[] = { "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white" };
@@ -56,7 +56,7 @@ char	cpass[COLORSIZE] = "\0";
 char	cmore[COLORSIZE] = "\0";
 char	cstatus[COLORSIZE] = "\0";
 
-char colormap[COLORSIZE][23];
+char colormap[22][COLORSIZE+1];
 
 
 void clearcolors()
@@ -64,7 +64,7 @@ void clearcolors()
         int     i;
 
         for (i=0; i<22; i++)
-                sprintf( colormap[COLORSIZE*i], "%c[0m" );
+                sprintf( colormap[i], "%c[0m" );
 
         return;
 }
@@ -74,28 +74,28 @@ void setcolors()
 {
 	int	i = 0;
 
-	sprintf( csane, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cwarning, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cerror, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cmodstar, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cusername, "%s", colormap[COLORSIZE * i++] );
-	sprintf( caddress, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cidletime, "%s", colormap[COLORSIZE * i++] );
-	sprintf( clogintime, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cunreg, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cwheader, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cwsubheader, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cwhisper, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cpersfrom, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cnormal, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cgtlt, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cequalbracket, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cgenmessage, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cpackettype, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cbeep, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cpass, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cmore, "%s", colormap[COLORSIZE * i++] );
-	sprintf( cstatus, "%s", colormap[COLORSIZE * i++] );
+	sprintf( csane, "%s", colormap[i++] );
+	sprintf( cwarning, "%s", colormap[i++] );
+	sprintf( cerror, "%s", colormap[i++] );
+	sprintf( cmodstar, "%s", colormap[i++] );
+	sprintf( cusername, "%s", colormap[i++] );
+	sprintf( caddress, "%s", colormap[i++] );
+	sprintf( cidletime, "%s", colormap[i++] );
+	sprintf( clogintime, "%s", colormap[i++] );
+	sprintf( cunreg, "%s", colormap[i++] );
+	sprintf( cwheader, "%s", colormap[i++] );
+	sprintf( cwsubheader, "%s", colormap[i++] );
+	sprintf( cwhisper, "%s", colormap[i++] );
+	sprintf( cpersfrom, "%s", colormap[i++] );
+	sprintf( cnormal, "%s", colormap[i++] );
+	sprintf( cgtlt, "%s", colormap[i++] );
+	sprintf( cequalbracket, "%s", colormap[i++] );
+	sprintf( cgenmessage, "%s", colormap[i++] );
+	sprintf( cpackettype, "%s", colormap[i++] );
+	sprintf( cbeep, "%s", colormap[i++] );
+	sprintf( cpass, "%s", colormap[i++] );
+	sprintf( cmore, "%s", colormap[i++] );
+	sprintf( cstatus, "%s", colormap[i++] );
 	
 	return;
 }
@@ -248,21 +248,20 @@ void colorinit()
 	}
 		fstat(fileno(fp),&statbuf);
 		filesize=statbuf.st_size;
-		printf("file size is %i\n",filesize);
 		cicbrcbuff=(char *) malloc(filesize*2);
-		workc=cicbrcbuff;
+		workbuf = cicbrcbuff;
 		fread(cicbrcbuff,filesize,1,fp);
 		fclose(fp);
 
 		clearcolors();
 		printf( "Loading colors: \n"); 
 
-		line = getcolorline( (char**)&workc);
+		line = getcolorline( (char**)&workbuf);
 
 /* discard first string, it's the header line */
 
 		while( line != NULL ) {
-			line = getcolorline( (char**)&workc );
+			line = getcolorline( (char**)&workbuf);
 			if (line != NULL) {
 				fields = parsecolorline( line, &TheColor );
 
@@ -298,9 +297,9 @@ void colorinit()
 						if (!strcmp( TheColor.field3, hicode ))
 							hiflag = 1;
 
-						sprintf(colormap[COLORSIZE * i], "%c[%d;%d;%dm", 27, bgcolor, hiflag, fgcolor ); 
+						sprintf(colormap[i], "%c[%d;%d;%dm", 27, bgcolor, hiflag, fgcolor ); 
 	
-						printf( "%8s%s%c[0m", colormap[COLORSIZE * i],"G!",27 ); 
+						printf( "%8s%s%c[0m", colormap[i],"G!",27 ); 
 				}
 			}
 		}

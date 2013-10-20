@@ -67,9 +67,11 @@ char *s;
 	putl(line, PL_LOG);
 
 	/* call TCL to evaluate the string */
-	result = Tcl_Eval(interp, cmdbuf, 0, &p);
+	result = Tcl_Eval(interp, cmdbuf);
 
-	if (result == TCL_UNKNOWN) {
+	if (result == TCL_ERROR) {
+		Tcl_Obj *objres = Tcl_GetObjResult(interp);
+		char *resultstr = Tcl_GetStringResult(interp);
 		args = findspace(s);
 		sendcmd(s,args);
 		goto endparse;

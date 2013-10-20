@@ -1,0 +1,44 @@
+# Sample of the new format .cicbrc file
+
+# "Sane", if specified, must be specified first after the header line.  Color
+# options other than "Sane" may be specified in any order.  Any unspecified
+# color options default to terminal normal, or whatever sane is set to if sane
+# is set.  Sane will be used for text typed by the user.
+
+# If only one color is specified for a particular option, it will be assumed to be
+# a foreground color.
+
+# Valid color choices are: black, white, red, green, yellow, blue, magenta, cyan.
+# All colors may have the "hi-intensity" foreground attribute.
+# Black with hi-intensity is displayed as dark grey.  White without hi-intensity
+# is displayed as light grey.  If used, hi-intensity affects both foreground and
+# background color.
+
+# Do not remove the header or "end" lines.  Extra blank lines will be ignored.
+
+@OPTION	FORE	BACK	SPECIAL	# do not delete this line!
+
+@sane	white	black		# "Sane" setting for typing etc
+@warn	red	black		# Server warnings
+@error	red	black	hi	# Server errors
+@mod	none	black	hi	# Star in front of moderator's name
+@name	cyan	black	hi	# User's nick
+@addr	green	black	hi	# User's address
+@idle	cyan	black		# Idle time
+@login	cyan	black		# Login time
+@unreg	green	black 	hi	# (nr) flag for unregistered nick
+@whead	white	black	hi	# Header in /w listing (doesn't work)
+@wsub	white	black	hi	# Subheader in /w listing
+@pers	cyan	black	hi	# Personal messages
+@normal	white	black	hi	# Normal messages
+@gtlt	green	black	hi	# < > brackets around names etc
+@bracket	cyan	black	hi	# [= =] brackets on server messages
+@advise	yellow	black	hi	# General advisories from the server
+@packet	red	black	hi	# Bad packet type
+@beep	white	black	hi	# Beep message
+@pass	white	black	hi	# Password prompt
+@more	blue	black	hi	# [=More=] prompt
+@status	green	black	hi	# Status field in server messages
+
+@END								#do not delete this line!
+

@@ -38,6 +38,7 @@ int whoflg = 0;			/* just do a who at startup */
 time_t curtime;			/* current time */
 int linenumber = 0;		/* current screen line number */
 int match_exact = 0;		/* used by histmatch() */
+int reusepvalue = 0;		/* toggles use of saved DH p value */
 
 
 /* flags set in .forumrc */
@@ -69,7 +70,8 @@ GLOBS gv = {
 	0,		/* logreplay */
 	"none",		/* alert */
 	0,		/* autoregister */
-	GICB_DEFAULT_NOIDLE
+	GICB_DEFAULT_NOIDLE,
+	0
 };
 
 int echomode = 1;	/* is echo on or off? */

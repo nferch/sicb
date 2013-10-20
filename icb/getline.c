@@ -2,7 +2,14 @@
 #include <stdio.h>
 #include "icb.h"
 #include "externs.h"
+
+#ifdef HAVE_READLINE_H
 #include <readline.h>
+#endif
+
+#ifdef HAVE_READLINE_READLINE_H
+#include <readline/readline.h>
+#endif
 
 /* get a line from the user, with input processing */
 /* returns chars in line, or 0 if user erased to beginning of line */
@@ -88,9 +95,8 @@ char c;
 			rl_point = 0;
 			rl_insert_text(mpref);
 			rl_point = rl_end;
-			rl_point = ppoint + strlen(mpref);
 			/* rl_redraw(); */
-			rl_refresh_line();
+			rl_redisplay();
 		}
 		else
 			printf("\007");
@@ -133,15 +139,16 @@ char c;
 			rl_insert_text(histget());
 			rl_insert(1,' ');
 			rl_point = 1;
-			rl_delete(1);
-			if (getNickContext(found_nick,0)) {
+			rl_delete_text(1,rl_end);
+			/*if (getNickContext(found_nick,0)) {
 				rl_insert(1,'n');
 			} else {
 				rl_insert(1,'m');
 			}
+			*/
 			rl_point = rl_end;
 			/* rl_redraw(); */
-			rl_refresh_line();
+			rl_refresh_line(1,rl_end);
 		}
 		else
 			printf("\007");
@@ -171,15 +178,14 @@ char c;
 		found_nick = histmatch(find_nick);
 		if (found_nick)
 		{
-			rl_rubout(word2len);
+			rl_delete_text(word2,word2 + word2len);
+			rl_point = word2;
 			rl_insert_text(found_nick);
 			if (match_exact)
 				rl_insert(1, ' ');
 			else
 				printf("\007");
-			/* rl_redraw();*/
-			rl_refresh_line();
-			
+			rl_redisplay();
 		}
 		else
 			printf("\007");
@@ -192,32 +198,20 @@ char c;
 		found_nick = histget();
 		if (found_nick)
 		{
+			//printf("word2 is %d and word2len is %d and found_nick is %s\n",word2,word2len,found_nick);
 			rl_point = word2;  
-			rl_delete(word2len); 
+			rl_delete_text(rl_point,rl_point + word2len); 
 			rl_insert_text(found_nick);
-			rl_point = rl_end;
-			rl_kill_line();
-			diff = strlen(found_nick) - word2len;
-			rl_point = ppoint + diff;
-			if (diff < 0)	/* line shrunk */
-			{
-				rl_point=rl_end;
-				rl_insert(-diff, ' ');
-				/* rl_redraw();*/
-				rl_refresh_line();
-				rl_rubout(-diff);
-			}
+			rl_redisplay();
+			rl_delete_text(1,2);
 			rl_point = 1;
-			rl_delete(1);
 			if (getNickContext(found_nick,0)) {
-				rl_insert(1,'n');
+				rl_insert_text("n");
 			} else {
-				rl_insert(1,'m');
+				rl_insert_text("m");
 			}
 			rl_point = rl_end;
-				
-			/* rl_redraw(); */
-			rl_refresh_line();
+			rl_redisplay();
 		}
 		else
 			printf("\007");

@@ -41,6 +41,7 @@ int flags;
 	}
 	/* put line into session log */
 	if ((flags & PL_LOG) && logfp != NULL) {
+		fprintf(logfp, "%s", s);
 		putc('\n', logfp); 
 	}
 	

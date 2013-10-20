@@ -22,7 +22,7 @@ ICBPORT = @ICBPORT@
 ICBSERVER ="@ICBSERVER@"
 ICBSERVERLIST="@ICBSERVERLIST@"
 ICBSYSTEMCICBRC="@ICBSYSTEMCICBRC@"
-ICBLIBS = ../murgil/libmurgil.a ../tcl/libtcl.a  ../readline/libreadline.a
+ICBLIBS = ../murgil/libmurgil.a
 
 SRC = \
 	color.c \
@@ -163,27 +163,27 @@ color.o: color.c
 serverlist.o: serverlist.c
 	$(CC) $(CFLAGS) -DICBSERVERLIST=\"$(ICBSERVERLIST)\" -DICBSERVER=\"$(ICBSERVER)\" -DICBPORT=$(ICBPORT) -c  serverlist.c
 
-getline.o: getline.c ../readline/readline.h
-	$(CC) $(CFLAGS) -c -I../readline -I.. getline.c
-
-readlineinit.o: readlineinit.c ../readline/readline.h
-	$(CC) $(CFLAGS) -c -I../readline -I.. readlineinit.c
-
-signals.o: signals.c icb.h ../protocol.h ../tcl/tcl.h ../readline/readline.h
-	$(CC) $(CFLAGS) -c -I../readline -I.. signals.c
+signals.o: signals.c icb.h ../protocol.h
+	$(CC) $(CFLAGS) -c -I.. signals.c
 
 #helpdata.c: perl/makehelp.pl $(HELP)
 #	perl perl/makehelp.pl $(HELP) > helpdata.c
 #
-#defprocs.c: perl/makedefs.pl bindings
-#	perl perl/makedefs.pl bindings > tmp
-#	mv tmp defprocs.c
-#
+
+defprocs.c: perl/makedefs.pl bindings
+	perl perl/makedefs.pl bindings > tmp
+	mv tmp defprocs.c
+
 #protos.h:
 #	cproto $(CFLAGS) $(SRC) | sort | perl ../support/fixprotos.pl > tmp
 #	mv tmp protos.h
 
-install: $(bindir)/icb $(libdir)/icbserverdb $(libdir)/cicbrc
+install: all
+	install -d $(libdir)
+	install -d $(bindir)
+	install ./icb $(bindir)
+	install -m644 ../icbserverdb $(libdir)
+	install -m644 ./cicbrc.sample $(libdir)/cicbrc
 
 $(libdir)/icbserverdb: ../icbserverdb
 	-mkdir $(libdir)
@@ -211,8 +211,11 @@ dstrip:
 	perl ../tools/dstrip.pl < Make > Make.o
 	mv Make.o Make
 
-distclean clean:
-	rm -f *.o icb Make.bak core tags
+distclean:
+	rm -f Makefile
+
+clean:
+	rm -f *.o icb Make.bak core tags defprocs.c
 
 saber_src:
 	#load $(SRC)

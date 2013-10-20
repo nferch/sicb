@@ -7,7 +7,14 @@
 #include "icb.h"
 #include "externs.h"
 #include <signal.h>
+
+#ifdef HAVE_READLINE_H
 #include <readline.h>
+#endif
+
+#ifdef HAVE_READLINE_READLINE_H
+#include <readline/readline.h>
+#endif
 
 /* Note that some of these routines set "continue" to 1. Continue is used */
 /* by a few other icb routines to see if they've been interrupted */
@@ -83,7 +90,7 @@ askquit()
 	if (oem)
 	{
 		/* rl_redraw();*/
-		rl_refresh_line();
+		//fuck rl_refresh_line();
 		echo();
 	}
 }

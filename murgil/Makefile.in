@@ -30,7 +30,6 @@ SRC = \
 	packetsend.c \
 	readpacket.c \
 	sendpacket.c \
-	serverserve.c \
 	setdelay.c 
 
 OBJ = \
@@ -46,7 +45,6 @@ OBJ = \
 	packetsend.o \
 	readpacket.o \
 	sendpacket.o \
-	serverserve.o \
 	setdelay.o 
 
 all: libmurgil.a
@@ -69,7 +67,9 @@ dstrip:
 	perl ../tools/dstrip.pl < Make > Make.o
 	mv Make.o Make
 
-distclean clean:
+distclean:
+	rm -f Makefile
+clean:
 	rm -f *.o libmurgil.a  core tags
 
 saber_src:

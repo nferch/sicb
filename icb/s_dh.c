@@ -17,7 +17,7 @@ TARGDEFS
 	if (argc != 2 || !*argv[1])
 		TRETURNERR(usage)
 
-	sprintf(dhmessage,"{!DH:PV:%s}",dhGetPValue(argv[1]));
+	sprintf(dhmessage,"{!DH:PV:%s}",dhGetPValue(argv[1],gv.reusepvalue));
 	sendpersonal(argv[1],dhmessage,0);
 	sprintf(dhmessage,"{!DH:PK:%s}",dhMakeKeyPair(argv[1]));
 	sendpersonal(argv[1],dhmessage,0);

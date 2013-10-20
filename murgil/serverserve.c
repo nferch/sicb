@@ -73,7 +73,6 @@ serverserve()
 	}
 }
 
-#if 0
 sdoinput()
 {
 	int n;
@@ -114,5 +113,4 @@ sdoinput()
 			}
 	}
 }
-#endif
 

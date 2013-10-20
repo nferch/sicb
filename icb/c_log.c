@@ -3,6 +3,7 @@
 
 /* primitive to control the session logging function */
 
+#include <errno.h>
 #include <config.h>
 #include "icb.h"
 #include "externs.h"
@@ -46,7 +47,10 @@ char *path;
 	time_t time();
 	struct tm *t, *localtime();
 	time_t clock;
-	extern int errno, sys_nerr;
+#if !defined (__GNU_LIBRARY__) && !defined (STDC_HEADERS)
+	extern int errno;
+#endif
+	extern int sys_nerr;
 
 	/* determine pathname to use */
 	if (path == NULL || *path == '\0')

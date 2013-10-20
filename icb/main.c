@@ -98,7 +98,7 @@ char **argv;
 		case 'g':
 			strncpy(group, switcharg, MAX_NICKLEN+1);
 			group[MAX_NICKLEN+1] = '\0';
-			mygroup=(char*) malloc(strlen(group));	
+			mygroup=(char*) malloc(strlen(group) + 1);
 			strcpy(mygroup,group);
 			break;
 		case 'a':

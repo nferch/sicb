@@ -13,13 +13,11 @@ c_usage add m g "\[-permanent\] \[-clear\] nick message" "send a personal messag
 
 # utility used by new /m
 proc _quote {args} {
-	set length [ length $args chars ]
+	set length [ string length $args ]
 	set string ""
 	for {set i 0 } { $i < $length } {set i [ expr $i+1 ]} {
-		set ch [ index $args $i chars ]
+		set ch [ string index $args $i ]
 		case $ch in \
-		\; {set string ${string}\\\;} \
-		\" {set string ${string}\\\"} \
 		\\ {set string ${string}\\\\} \
 		*   {set string ${string}${ch}}
 	}
@@ -28,20 +26,20 @@ proc _quote {args} {
 
 proc m {args} {
 	set args [ _quote $args ]
-	set first [ range $args 0 0 chars ]
+	set first [ string range $args 0 0 ]
 	if [ string compare $first \{ ]==0 {
-		set length [ length $args chars ]
-		set args [ range $args 1 [ expr $length-2 ] chars ]
+		set length [ string length $args ]
+		set args [ string range $args 1 [ expr $length-2 ] ]
 	}
 	eval s_personal $args
 }
 
 proc n {args} {
 	set args [ _quote $args ]
-	set first [ range $args 0 0 chars ]
+	set first [ string range $args 0 0 ]
 	if [ string compare $first \{ ]==0 {
-		set length [ length $args chars ]
-		set args [range $args 1 [ expr $length-2 ] chars ]
+		set length [ string length $args ]
+		set args [ string range $args 1 [ expr $length-2 ] ]
 	}
 	eval s_spersonal $args
 }

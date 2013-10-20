@@ -1,7 +1,20 @@
+#include <config.h>
+
+#ifdef HAVE_OPENSSL_EVP_H
 #include <openssl/evp.h>
-#include <openssl/bn.h>
 #include <openssl/dh.h>
+#endif
+
+#ifdef HAVE_EVP_H
+#include <evp.h>
+#include <dh.h>
+#endif
+
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include "icbcrypt.h"
 
 typedef struct {
@@ -14,6 +27,67 @@ typedef struct {
 nickcontext * nickcontexts[512];
 int maxnickcontext = -1;
 DH *defDH = NULL;
+
+void saveDHToFile(void) {
+	char * homedir = getenv("HOME");
+	char * dhfile = malloc(strlen(homedir)  + 8);
+
+	char * pvalue = BN_bn2hex(defDH->p);
+
+	int dhfd = -1;
+
+	//printf("P value is %s and it is %d bytes long\n",pvalue,strlen(pvalue));
+	strcpy(dhfile,homedir);
+	strcat(dhfile,"/.icbdh");
+
+	dhfd = open(dhfile,O_WRONLY|O_CREAT|O_TRUNC,0600);
+	//printf("dhfd is %d\n",dhfd);
+	write(dhfd,pvalue,strlen(pvalue));
+	//printf("done with write()\n");
+	close(dhfd);
+	//printf("done with close()\n");
+	printf("Saved value to disk.\n");
+}
+
+DH * loadDHFromFile(void) {
+        DH * tempDH = DH_new();
+        int checkcodes = 0;
+        int rc;
+	char hexPValue[1024];
+	int dhfd;
+	int len;
+	char * homedir = getenv("HOME");
+	char * dhfile = malloc(strlen(homedir)  + 8);
+	
+	strcpy(dhfile,homedir);
+	strcat(dhfile,"/.icbdh");
+
+	dhfd = open(dhfile,O_RDONLY);
+	if (dhfd == -1) {
+		return NULL;
+	}
+	len = read(dhfd,hexPValue,sizeof(hexPValue));
+	close(dhfd);
+	do {
+		hexPValue[len--] = '\0';
+	} while ( (hexPValue[len] < '0') || (hexPValue[len] > '9' && hexPValue[len] < 'A') || (hexPValue[len] > 'F') );
+	
+        rc = BN_dec2bn(&(tempDH->g),"5");
+        rc = BN_hex2bn(&(tempDH->p),hexPValue);
+
+        if (!DH_check(tempDH,&checkcodes) || (checkcodes > 0) ) {
+                DH_free(tempDH);
+		tempDH = NULL;
+		printf("Error in P value retrieved from disk.\n");
+		if (checkcodes | DH_CHECK_P_NOT_PRIME) {
+			printf("P is not a prime.\n");
+		} else if (checkcodes | DH_CHECK_P_NOT_STRONG_PRIME) {
+			printf("P is not a strong prime.\n");
+		}
+        } 
+	return tempDH;
+}
+
 
 nickcontext * getNickContext(char * nick, int create) {
 	int i;
@@ -55,7 +129,7 @@ void makeContextForNick(char * nick) {
 
 	if (conpos > maxnickcontext) {
 		nickcontexts[++maxnickcontext] = malloc(sizeof(nickcontext));
-		strcpy(nickcontexts[maxnickcontext]->nick,nick);
+		strncpy(nickcontexts[maxnickcontext]->nick,nick,32);
 	}
 
 	nickcontexts[maxnickcontext]->encContext = NULL;
@@ -202,17 +276,35 @@ void dhGenCallback(int a, int b, void * ugh) {
 	fflush(0);
 }
 
-char * dhGetPValue(char * nick) {
+char * dhGetPValue(char * nick, int valueOnDiskOK) {
 	nickcontext * thecontext = getNickContext(nick,1);
 	int WAITING = 1;
 
 	if (thecontext == NULL)
 		return NULL;
+	if (defDH == NULL && valueOnDiskOK) {
+		defDH = loadDHFromFile();
+	}
 	if (defDH == NULL) {
-		printf("Making DH parameters.\n");
-		defDH = DH_generate_parameters(256,5,(void *)dhGenCallback,(void *)&WAITING);
-		while (WAITING) {
-			sleep(1);
+		int checkcodes = 0;
+		do {
+			printf("Making DH parameters.\n");
+			defDH = DH_generate_parameters(256,5,(void *)dhGenCallback,(void *)&WAITING);
+			while (WAITING) {
+				sleep(1);
+			}
+
+			if (!DH_check(defDH,&checkcodes)) {
+				printf("Couldn't even check that prime. Trying again.\n");
+				checkcodes = -1;
+				DH_free(defDH);
+			} else if (checkcodes != 0) {
+				printf("Unsafe prime. Trying again.\n");
+				DH_free(defDH);
+			}
+		} while (checkcodes != 0);
+		if (valueOnDiskOK) {
+			saveDHToFile();
 		}
 	}
 	thecontext->dh = malloc(sizeof(DH));
@@ -249,9 +341,12 @@ char * dhMakeKeyPair(char * nick) {
 
 	
 
-	DH_generate_key(thecontext->dh);
-	
-	return BN_bn2hex(thecontext->dh->pub_key);
+	if (thecontext != NULL) {
+		DH_generate_key(thecontext->dh);
+		return BN_bn2hex(thecontext->dh->pub_key);
+	} else {
+		return NULL;
+	}
 }
 
 void makeEncContexts(char * nick, unsigned char * secret) {

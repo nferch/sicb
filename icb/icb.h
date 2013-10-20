@@ -1,8 +1,25 @@
 /* Copyright (c) 1990 by Carrick Sean Casey. */
 /* For copying and distribution information, see the file COPYING. */
 
+#include <config.h>
 #include "../protocol.h"
-#include "../tcl/tcl.h"
+
+#ifdef HAVE_TCL_H
+#include <tcl.h>
+#endif
+
+#ifdef HAVE_TCL8_0_TCL_H
+#include <tcl8.0/tcl.h>
+#endif
+
+#ifdef HAVE_TCL8_1_TCL_H
+#include <tcl8.1/tcl.h>
+#endif
+
+#ifdef HAVE_TCL8_2_TCL_H
+#include <tcl8.2/tcl.h>
+#endif
+
 #include <stdio.h>
 #include <sys/param.h>
 #include "color.h"
@@ -10,7 +27,7 @@
 #include <ctype.h>
 #endif
 
-char *malloc();
+// char *malloc();
 
 /* command usage information */
 
@@ -48,6 +65,7 @@ typedef struct {
 	int autoregister;	/* prompt for password when [=Register=] msg
 				   received? */
 	char *idle;
+	int reusepvalue;	/* toggles use of saved DH p value */
 } GLOBS;
 
 /* info on the user's tty */
@@ -88,7 +106,7 @@ typedef struct Strlist {
 #define TARGLIST clientData, interp, argc, argv
 #define TARGDEFS char *clientData; Tcl_Interp *interp; int argc; char *argv[];
 #define TRET	interp->result
-#define TRETURNERR(x) { if (TRET && interp->dynamic) free(TRET); TRET = (char *)malloc(strlen(x)+1); if (TRET) { strcpy(TRET, (x)); interp->dynamic=1; } return(TCL_ERROR); }
+#define TRETURNERR(x) { if (TRET) { strcpy(TRET, (x)); } return(TCL_ERROR); }
 
 /* include function prototypes if ANSI compiler */
 /* otherwise, include file that shows return type for each function */

@@ -42,6 +42,7 @@ VARIABLE vars[] = {
 	{ "pauseonshell",	V_BOOLEAN,	(char *)&gv.pauseonshell },
 	{ "personalto", V_STRING,	(char *)&gv.personalto },
 	{ "restricted",	V_BOOLEAN,	(char *)&gv.restricted },
+	{ "reusepvalue", V_BOOLEAN,	(char *)&gv.reusepvalue },
 	{ "tabreply",	V_BOOLEAN,	(char *)&gv.tabreply },
 	{ "timedisplay",	V_STRING,	(char *)&gv.timedisplay },
 	{ "verifyquit",	V_BOOLEAN,	(char *)&gv.verifyquit },

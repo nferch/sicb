@@ -4,7 +4,6 @@
 #include <config.h>
 #include "icb.h"
 #include "externs.h"
-#include <varargs.h>
 
 extern char *charmap;
 
@@ -204,6 +203,11 @@ mbreakprint(int per, char *from, char *s) {
 	char *p, *lastw;
 	char tmp1, tmp2;
 
+	if (!strncmp(s,"http",4)) {
+		mprint(per, from, s,1);
+		return;
+	}
+		
 	/* traverse s and try to break on a word */
 	p = s;
 	lastw = p;
@@ -373,6 +377,7 @@ int split(char *s) {
 
 #if 0
 
+/*
 /* cat multiple strings into one */
 /* call with strscat(dest, src, src, ...) */
 
@@ -399,6 +404,7 @@ strscat(va_dcl) {
 	*dest = '\0';
 	return(dest);
 }
+*/
 
 #endif
 

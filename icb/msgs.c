@@ -1,4 +1,4 @@
-/* Copyright (c) 1990 by Carrick Sean Casey. */
+/* Copyright (c) 1991 by Carrick Sean Casey. */
 /* For copying and distribution information, see the file COPYING. */
 
 /* handle various messages from the server */
@@ -11,6 +11,7 @@
 #include <time.h>
 #include <openssl/evp.h>
 #include "icbcrypt.h"
+#include <string.h>
 
 /* later, these routines should buffer up text to be sent to the user and */
 /* only send them when the user isn't typing */
@@ -70,7 +71,10 @@ char *pkt;
 		fields[1][strlen(fields[1]) - 1] = '\0';
 		decryptedmessage = blowfishDecrypt(fields[0],fields[1]+5,&decryptedmessagelen);
 		if (decryptedmessage == NULL) {
-			printf("Could not decrypt from %s. Have you completed a key exchange?\n",fields[0]);
+	  		sprintf(mbuf, "%s[%sBF%s]%s Could not decrypt from %s%s%s. Have you completed a key agreement?%s",cequalbracket,cbeep,cequalbracket,cgenmessage,cusername, fields[0], cgenmessage,csane);
+			putl(mbuf, PL_BUF | PL_SCR);
+	  		sprintf(mbuf, "[BF] Could not decrypt from %s. Have you completed a key agreement?",fields[0]);
+			putl(mbuf, PL_LOG);
 		} else {
 			strncpy(fields[1],decryptedmessage,decryptedmessagelen);
 			fields[1][decryptedmessagelen] = '\0';
@@ -78,23 +82,43 @@ char *pkt;
 			free(decryptedmessage);
 		}
 	} else if (!strncmp(fields[1],"{!DH:PV:",8)) {
-		
-		
-		fields[1][strlen(fields[1]) - 1] = '\0';
-		if (!dhSetPValue(fields[0],fields[1]+8)) {
-			decryptedmessage = malloc(1024);
-			sprintf(decryptedmessage,"{!DH:PK:%s}",dhMakeKeyPair(fields[0]),0);
-			sendpersonal(fields[0],decryptedmessage,0);
-			free(decryptedmessage);
+	  	sprintf(mbuf, "%s[%sDH%s]%s Received P Value from %s%s%s.%s",cequalbracket,cbeep,cequalbracket,cgenmessage,cusername, fields[0], cgenmessage,csane);
+		putl(mbuf, PL_BUF | PL_SCR);
+	  	sprintf(mbuf, "[DH] Received P Value from %s.",fields[0]);
+		putl(mbuf, PL_LOG);
+		if (strlen(fields[1]) > 9) {
+			fields[1][strlen(fields[1]) - 1] = '\0';
+			if (!dhSetPValue(fields[0],fields[1]+8)) {
+				decryptedmessage = malloc(1024);
+				sprintf(decryptedmessage,"{!DH:PK:%s}",dhMakeKeyPair(fields[0]),0);
+				sendpersonal(fields[0],decryptedmessage,0);
+				free(decryptedmessage);
+			}
+		} else {
+	  		sprintf(mbuf, "%s[%sDH%s]%s Unsuccessful key agreement with %s%s%s.%s",cequalbracket,cbeep,cequalbracket,cgenmessage,cusername, fields[0], cgenmessage,csane);
+			putl(mbuf, PL_BUF | PL_SCR);
+	  		sprintf(mbuf, "[DH] Unsuccessful key agreement with %s.",fields[0]);
+			putl(mbuf, PL_LOG);
 		}
 	} else if (!strncmp(fields[1],"{!DH:PK:",8)) {
+	  	sprintf(mbuf, "%s[%sDH%s]%s Received Public Key from %s%s%s.%s",cequalbracket,cbeep,cequalbracket,cgenmessage,cusername, fields[0], cgenmessage,csane);
+		putl(mbuf, PL_BUF | PL_SCR);
+	  	sprintf(mbuf, "[DH] Received Public Key from %s.",fields[0]);
+		putl(mbuf, PL_LOG);
+		if (strlen(fields[1]) > 9) {
+			fields[1][strlen(fields[1]) - 1] = '\0';
 		
-		fields[1][strlen(fields[1]) - 1] = '\0';
-		
-		if (!dhGenerateBFKey(fields[0],fields[1]+8)) {
-			printf("Completed key agreement with %s.\n",fields[0]);
-		} else {
-			printf("Unsuccessful key agreement with %s.\n",fields[0]);
+			if (!dhGenerateBFKey(fields[0],fields[1]+8)) {
+	  			sprintf(mbuf, "%s[%sDH%s]%s Completed key agreement with %s%s%s.%s",cequalbracket,cbeep,cequalbracket,cgenmessage,cusername, fields[0], cgenmessage,csane);
+				putl(mbuf, PL_BUF | PL_SCR);
+	  			sprintf(mbuf, "[DH] Completed key agreement with %s.",fields[0]);
+				putl(mbuf, PL_LOG);
+			} else {
+	  			sprintf(mbuf, "%s[%sDH%s]%s Unsuccessful key agreement with %s%s%s.%s",cequalbracket,cbeep,cequalbracket,cgenmessage,cusername, fields[0], cgenmessage,csane);
+				putl(mbuf, PL_BUF | PL_SCR);
+	  			sprintf(mbuf, "[DH] Unsuccessful key agreement with %s.",fields[0]);
+				putl(mbuf, PL_LOG);
+			}
 		}
 	} else {
 		mbreakprint(1, fields[0], fields[1]);
@@ -291,7 +315,7 @@ statusmsg(char *pkt) {
 			} else {
 				if (!mygroup) 
 					free(mygroup);
-				mygroup=(char*) malloc(strlen(groupname));
+				mygroup=(char*) malloc(strlen(groupname) + 1);
 				strcpy(mygroup,groupname);
 			}
 			free(groupname);
