@@ -4,6 +4,7 @@
 /* primitive to manipulate usage lists */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

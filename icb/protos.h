@@ -52,7 +52,7 @@ int filtertext(char *s);
 int fnexit(void);
 int fnterm(void);
 int oset(char *clientData, Tcl_Interp *interp, int argc, char *argv[]);
-char *getline(char *prompt, int expand);
+char *icb_getline(char *prompt, int expand);
 int getterm(void);
 int getwinsize(void);
 int gunlink(USAGE *u, USAGE **first, USAGE **last);

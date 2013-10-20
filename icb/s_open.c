@@ -5,6 +5,7 @@
 /* this is included for Tcl purposes, but most text bypasses this */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

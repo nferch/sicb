@@ -4,6 +4,7 @@
 /* routines to maintain a generic list of strings */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 
 

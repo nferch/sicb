@@ -4,6 +4,7 @@
 /* primitive to request group functions */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

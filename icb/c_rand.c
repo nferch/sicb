@@ -4,6 +4,7 @@
 /* primitive to generate a random number */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

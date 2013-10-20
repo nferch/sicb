@@ -4,6 +4,8 @@
 /* send various messages to the server */
 
 #include <config.h>
+#include <stdlib.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 #include <icbcrypt.h>

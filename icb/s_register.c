@@ -4,6 +4,7 @@
 /* primitive to prompt for password and send registration command to server */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

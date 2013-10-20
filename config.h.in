@@ -178,6 +178,12 @@
 /* Define if you have the <tcl8.3/tcl.h> header file.  */
 #undef HAVE_TCL8_3_TCL_H
 
+/* Define if you have the <tcl8.4/tcl.h> header file.  */
+#undef HAVE_TCL8_4_TCL_H
+
+/* Define if you have the <tcl8.5/tcl.h> header file.  */
+#undef HAVE_TCL8_5_TCL_H
+
 /* Define if you have the <termio.h> header file.  */
 #undef HAVE_TERMIO_H
 

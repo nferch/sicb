@@ -7,6 +7,7 @@
 /* New cp function by Phil Stracchino, November 16 1994 */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

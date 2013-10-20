@@ -4,6 +4,7 @@
 /* primitive to clear the history list */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

@@ -2,6 +2,8 @@
 /* For copying and distribution information, see the file COPYING. */
 
 #include <config.h>
+#include <string.h>
+#include <stdlib.h>
 #include "icb.h"
 #include "externs.h"
 

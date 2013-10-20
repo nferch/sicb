@@ -4,6 +4,7 @@
 /* primitive to do a diffie-hellman key agreement */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 #include "icbcrypt.h"

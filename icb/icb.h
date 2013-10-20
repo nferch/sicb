@@ -24,6 +24,14 @@
 #include <tcl8.3/tcl.h>
 #endif
 
+#ifdef HAVE_TCL8_4_TCL_H
+#include <tcl8.4/tcl.h>
+#endif
+
+#ifdef HAVE_TCL8_5_TCL_H
+#include <tcl8.5/tcl.h>
+#endif
+
 #include <stdio.h>
 #include <sys/param.h>
 #include "color.h"

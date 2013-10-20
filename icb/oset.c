@@ -4,6 +4,8 @@
 /* primitive to set icb internal variables */
 
 #include <config.h>
+#include <stdlib.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 
@@ -143,7 +145,8 @@ char *s;
 {
 	int zero = 0, one = 1;
 	int tmp;
-	char *p, *malloc();
+/*	char *p, *malloc(); */
+	char *p;
 
 	switch(type) {
 	case V_CHAR:

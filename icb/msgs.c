@@ -461,7 +461,7 @@ int importantmsg(char *pkt) {
 
 char *idlestr(char *num) {
 	int seconds = atoi(num);
-	static char idletime[8];
+	static char idletime[64];
 	int hours, minutes;
 
 	if (seconds < 60)

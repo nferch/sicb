@@ -4,6 +4,7 @@
 /* returns socket for new connects */
 
 #include <stdio.h>
+#include <string.h>
 #include "config.h"
 #include <fcntl.h>
 #include <signal.h>

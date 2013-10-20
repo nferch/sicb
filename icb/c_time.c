@@ -4,6 +4,7 @@
 /* primitive to display the local time */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 #include <time.h>

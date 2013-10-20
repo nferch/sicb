@@ -4,6 +4,7 @@
 /* screen and logfile printing routines */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 extern FILE *glogfp;

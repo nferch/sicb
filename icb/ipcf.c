@@ -61,7 +61,7 @@ c_userchar()
 	static char *s;	/* user input string */
 
 	/* user typed one or more characters - gather a line of input */
-	s=getline(NULL, 1);
+	s=icb_getline(NULL, 1);
 
 	if (!s) /* EOF */
 	{ 	

@@ -5,6 +5,8 @@
 /* this list is displayed when the uses uses c_commands */
 
 #include <config.h>
+#include <stdlib.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

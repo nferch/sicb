@@ -4,6 +4,7 @@
 /* primitive to delete entries from the nickname history */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

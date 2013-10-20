@@ -4,6 +4,7 @@
 /* primitive to print the motd */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

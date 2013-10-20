@@ -1,5 +1,6 @@
 #include <config.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "icb.h"
 #include "externs.h"
 
@@ -19,7 +20,7 @@ static char *line_read = (char *)NULL;
 
 extern void echo();
 
-char *getline(prompt, expand)
+char *icb_getline(prompt, expand)
 char *prompt;
 int expand;
 {

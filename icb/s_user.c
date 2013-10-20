@@ -4,6 +4,7 @@
 /* primitive to change user info */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

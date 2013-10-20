@@ -2,6 +2,7 @@
 /* cute sayings when a user hits RETURN with no text */ 
 /* Additional sayings by Alaric (c) 1994 */ 
 #include <config.h> 
+#include <stdlib.h>
 #include "icb.h"
 #include "externs.h" 
 

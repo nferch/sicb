@@ -3,6 +3,7 @@
 
 /* primitive to control the session logging function */
 
+#include <string.h>
 #include <errno.h>
 #include <config.h>
 #include "icb.h"

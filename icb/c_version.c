@@ -4,6 +4,7 @@
 /* primitive to display client version info */
 
 #include <config.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 

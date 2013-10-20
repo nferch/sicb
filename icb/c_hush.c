@@ -4,6 +4,8 @@
 /* primitive to hush abusive users */
 
 #include <config.h>
+#include <string.h>
+#include <stdlib.h>
 #include "icb.h"
 #include "externs.h"
 

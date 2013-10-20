@@ -5,6 +5,8 @@
 /* primitive to send a personal message */
 
 #include <config.h>
+#include <stdlib.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 #include "getswitch.h"
@@ -107,7 +109,7 @@ int echoflag;
 	{
 		do
 		{
-			text = getline(">> ",0);
+			text = icb_getline(">> ",0);
 
 			if (!text || !*text )
 			{

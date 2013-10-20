@@ -4,6 +4,8 @@
 /* parse a line from the user */
 
 #include <config.h>
+#include <stdlib.h>
+#include <string.h>
 #include "icb.h"
 #include "externs.h"
 
